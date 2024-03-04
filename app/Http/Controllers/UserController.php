@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
@@ -15,7 +14,6 @@ class UserController extends Controller
             'email' => 'required|email',
             'password' => 'required|min:6',
         ]);
-    
         $user = new User;
         $user->username = $validatedData['username'];
         $user->email = $validatedData['email'];
