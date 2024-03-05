@@ -40,8 +40,14 @@ class LikesController extends Controller
     //     }
     //     return response()->json(['message' => 'Post unliked successfully']);
     // }
-    function likePost()
-    {
-        return "hello";
-    }
+    // public function likePost (Request $request)
+//     {
+//     error_log($request);
+//     try{
+//         $existinglike = Like::where('id', $request->id)->where('postid', $request->post)
+//     }
+//     {
+//         return "hello";
+//     }
+// }
 } 

@@ -31,5 +31,6 @@ class UserController extends Controller
             return response()->json(['error' => 'Email or password is incorrect'], 401);
         }
         return $user;
+        
     }
 }
