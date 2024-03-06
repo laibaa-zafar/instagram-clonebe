@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
-
 class PostController extends Controller
 {
     public function addPost(Request $req)
@@ -26,9 +25,10 @@ class PostController extends Controller
        
     }
 
-    public function index()
+   function index()
     {
         $posts = Post::all();
         return response()->json(['message' => 'Posts retrieved successfully', 'posts' => $posts]);
+        return "hello";
     }
 }
