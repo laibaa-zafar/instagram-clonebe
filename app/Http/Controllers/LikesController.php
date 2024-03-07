@@ -9,21 +9,20 @@ use App\Http\Controllers\Controller;
 
 class LikesController extends Controller
 {
-    public function likePost()
-    {
-        $post = Post::findOrFail($postid);
-        $username = $request->input('username');
-        $like = Like::where('post_id', $postid)
-            ->where('username', $username)
-            ->first();
-        if (!$like) {
-            $like = new Like();
-            $like->post_id = $postid; 
-            $like->username = $username;
-            $like->save();
+        public function likePost(Request $request)
+{
+    error_log($request);
+    try {
+        $existingLike = Like::where('id', $request->id)->where('postid', $request->post)->first();
+        if ($existingLike) {
+            return response()->json(['message' => 'Like already exists'], 400);
         }
-        return response()->json(['message' => 'Post liked']);
-    return "hello";
+    } catch (\Exception $e) {
+        return response()->json(['message' => 'An error occurred'], 500);
+    }
+}
+
+    // return "hello";
     }
 
 
@@ -51,4 +50,3 @@ class LikesController extends Controller
 //         return "hello";
 //     }
 // }
-}

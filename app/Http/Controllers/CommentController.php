@@ -12,28 +12,27 @@ class CommentController extends Controller
             'postid' => 'required',
             'content' => 'required|string|max:255',
         ]);
-
-        $user = $request->user();
-        if (!$user) {
+    
+        try {
+            $comment = new Comment();
+            $comment->postid = $request->postid;
+            $comment->id = $request->id;
+            $comment->content = $request->content;
+    
+            if ($comment->save()) {
+                return response()->json([
+                    'message' => 'Comment successful',
+                    'comment' => $comment
+                ], 201);
+            } else {
+                throw new \Exception('Failed to save comment');
+            }
+        } catch (\Exception $e) {
             return response()->json([
-                'message' => 'User not authenticated'
-            ], 401);
-        }
-
-        $comment = new Comment();
-        $comment->postid = $request->postid;
-        $comment->user_id = $user->id; // Assuming user_id is the foreign key for the user's ID
-        $comment->content = $request->content;
-
-        if ($comment->save()) {
-            return response()->json([
-                'message' => 'Comment successful',
-                'comment' => $comment
-            ], 201);
-        } else {
-            return response()->json([
-                'message' => 'Error occurred'
+                'message' => 'Error occurred',
+                'error' => $e->getMessage()
             ], 500);
         }
     }
+    
 }
