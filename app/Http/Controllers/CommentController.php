@@ -34,5 +34,20 @@ class CommentController extends Controller
             ], 500);
         }
     }
+    public function getComments()
+    {
+        try {
+            $comments = Comment::all();
+            return response()->json([
+                'message' => 'Comments retrieved successfully',
+                'comments' => $comments
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Error occurred',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
     
 }

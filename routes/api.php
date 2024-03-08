@@ -20,3 +20,4 @@ Route::post('addPost', [PostController::class, 'addPost']);
 Route::get('index', [PostController::class, 'index']);
 Route::post('likePost', [LikesController::class, 'likePost']);
 Route::post('store', [CommentController::class, 'store']);
+Route::get('getComments', [CommentController::class, 'getComments']);

@@ -10,19 +10,19 @@ use App\Http\Controllers\Controller;
 class LikesController extends Controller
 {
         public function likePost(Request $request)
-{
+    {
     error_log($request);
     try {
-        $existingLike = Like::where('id', $request->id)->where('postid', $request->post)->first();
+        $existingLike = Like::where('id', $request->id)->where('postid', $request->postid)->where('username', $request->username)->first();
         if ($existingLike) {
             return response()->json(['message' => 'Like already exists'], 400);
         }
     } catch (\Exception $e) {
         return response()->json(['message' => 'An error occurred'], 500);
     }
+   
 }
 
-    // return "hello";
     }
 
 
