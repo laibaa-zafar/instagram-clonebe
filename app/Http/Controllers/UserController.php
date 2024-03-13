@@ -33,4 +33,26 @@ class UserController extends Controller
         return $user;
         
     }
+    
+    public function getUser(Request $request)
+    {
+        try {
+            $username = $request->input('username');
+            
+            if (!$username) {
+                return response()->json(['message' => 'Missing required field: username'], 400);
+            }
+    
+            $user = User::where('username', $username)->first();
+    
+            if (!$user) {
+                return response()->json(['message' => 'User not found'], 404);
+            }
+    
+            return response()->json(['data' => ['user-id' => $user->id]], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage()], 500);
+        }
+    }
+    
 }

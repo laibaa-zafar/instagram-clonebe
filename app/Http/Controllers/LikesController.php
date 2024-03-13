@@ -9,44 +9,69 @@ use App\Http\Controllers\Controller;
 
 class LikesController extends Controller
 {
-        public function likePost(Request $request)
-    {
-    error_log($request);
-    try {
-        $existingLike = Like::where('id', $request->id)->where('postid', $request->postid)->where('username', $request->username)->first();
-        if ($existingLike) {
-            return response()->json(['message' => 'Like already exists'], 400);
-        }
-    } catch (\Exception $e) {
-        return response()->json(['message' => 'An error occurred'], 500);
+    public function likePost(Request $request)
+{
+    // Check if the user has already liked the post
+    $existingLike = Like::where('postid', $request->postid)
+                         ->where('username', $request->username)
+                         ->first();
+
+    if ($existingLike) {
+        return response()->json(['message' => 'User has already liked the post.'], 400);
     }
-   
+
+    // Insert a new like
+    $like = new Like();
+    $like->postid = $request->postid;
+    $like->username = $request->username;
+    $like->save();
+
+    return response()->json(['message' => 'Like added successfully.'], 200);
 }
 
+
+public function unlikePost(Request $request)
+{
+    try {
+        $id = $request->input('id');
+        $postid = $request->input('postid');
+        $username = $request->input('username');
+
+        if (!$id || !$postid || !$username) {
+            return response()->json(['message' => 'Missing required fields'], 400);
+        }
+        $existingLike = Like::where('id', $id)
+                            ->where('postid', $postid)
+                            ->where('username', $username)
+                            ->first();
+
+        if (!$existingLike) {
+            return response()->json(['message' => 'Post not liked'], 400);
+        }
+        $existingLike->delete();
+
+        return response()->json(['message' => 'Post unliked successfully'], 200);
+    } catch (\Exception $e) {
+        return response()->json(['message' => $e->getMessage()], 500);
     }
+}
 
 
-    // public function unlike(Request $request, $postid)
-    // {
-    //     $post = Post::findOrFail($postid);
-    //     $username = $request->input('username');
-
-    //     $like = Like::where('post_id', $postid)
-    //         ->where('username', $username)
-    //         ->first();
-
-    //     if ($like) {
-    //         $like->delete();
-    //     }
-    //     return response()->json(['message' => 'Post unliked successfully']);
-    // }
-    // public function likePost (Request $request)
-//     {
-//     error_log($request);
-//     try{
-//         $existinglike = Like::where('id', $request->id)->where('postid', $request->post)
-//     }
-//     {
-//         return "hello";
-//     }
-// }
+public function likeStatus (Request $request)
+{
+    try {
+        $postid = $request->input('postid');
+        if (!$postid)
+        {
+            return response()->json(['message' => 'Missing required field: postid'], 400);
+        }
+        $totalLikes = Like::where('postid', $postid)->count();
+        return response()->json(['total_likes' => $totalLikes], 200);
+    } 
+    catch (\Exception $e) 
+    {
+        return response()->json(['message' => $e->getMessage()], 500);
+    }
+}
+    }
+    

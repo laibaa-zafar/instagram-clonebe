@@ -9,7 +9,5 @@ class Like extends Model
 {
     use HasFactory;
     protected $table = 'likes';
-    protected $fillable = ['postid', 'username'];
-
-
+    protected $fillable = ['postid', 'username', 'id'];
 }
