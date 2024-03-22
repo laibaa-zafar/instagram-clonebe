@@ -18,6 +18,7 @@ Route::post('signup', [UserController::class, 'signup']);
 Route::post('login', [UserController::class, 'login']);
 Route::get('getUser', [UserController::class, 'getUser']);
 Route::post('addPost', [PostController::class, 'addPost']);
+Route::post('profileController', [ProfileController::class, 'profileController']);
 Route::get('index', [PostController::class, 'index']);
 Route::post('likePost', [LikesController::class, 'likePost']);
 Route::delete('unlikePost', [LikesController::class, 'unlikePost']);

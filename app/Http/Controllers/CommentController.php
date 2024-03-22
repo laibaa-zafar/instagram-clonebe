@@ -21,19 +21,23 @@ class CommentController extends Controller
     
             if ($comment->save()) {
                 return response()->json([
-                    'message' => 'Comment successful',
-                    'comment' => $comment
+                    'message' => 'Comment saved successfully',
+                    'comment_id' => $comment->id // Return just the comment ID
                 ], 201);
             } else {
                 throw new \Exception('Failed to save comment');
             }
         } catch (\Exception $e) {
+            // Log the error message for debugging
+            Log::error('Error saving comment: '.$e->getMessage());
+    
             return response()->json([
-                'message' => 'Error occurred',
+                'message' => 'Error occurred while saving comment',
                 'error' => $e->getMessage()
             ], 500);
         }
     }
+    
     public function getComments()
     {
         try {
