@@ -17,9 +17,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('signup', [UserController::class, 'signup']);
 Route::post('login', [UserController::class, 'login']);
 Route::get('getUser', [UserController::class, 'getUser']);
+Route::get('getUserPosts', [UserController::class, 'getUserPosts']);
 Route::post('addPost', [PostController::class, 'addPost']);
-Route::post('profileController', [ProfileController::class, 'profileController']);
+// Route::post('profileController', [ProfileController::class, 'profileController']);
 Route::get('index', [PostController::class, 'index']);
+Route::get('index/{userId}', [PostController::class, 'index']);
 Route::post('likePost', [LikesController::class, 'likePost']);
 Route::delete('unlikePost', [LikesController::class, 'unlikePost']);
 Route::get('likeStatus', [LikesController::class, 'likeStatus']);

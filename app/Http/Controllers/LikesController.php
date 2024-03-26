@@ -33,21 +33,21 @@ class LikesController extends Controller
 public function unlikePost(Request $request)
 {
     try {
-        $id = $request->input('id');
         $postid = $request->input('postid');
         $username = $request->input('username');
 
-        if (!$id || !$postid || !$username) {
+        if (!$postid || !$username) {
             return response()->json(['message' => 'Missing required fields'], 400);
         }
-        $existingLike = Like::where('id', $id)
-                            ->where('postid', $postid)
+
+        $existingLike = Like::where('postid', $postid)
                             ->where('username', $username)
                             ->first();
 
         if (!$existingLike) {
-            return response()->json(['message' => 'Post not liked'], 400);
+            return response()->json(['message' => 'Post was not liked previously.'], 200);
         }
+
         $existingLike->delete();
 
         return response()->json(['message' => 'Post unliked successfully'], 200);
